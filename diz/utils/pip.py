@@ -1,13 +1,14 @@
 import subprocess
 import requests
 from diz.utils import validators
+from diz.utils import venv
 import os
 import tempfile
 
 
 def run_command_in_venv(command, venv_path):
-    activate_script = f"{venv_path}/bin/activate"
-    cmd = f"source {activate_script} && {command}"
+    activate_script = venv.get_activate_command(venv_path)
+    cmd = f"{activate_script} && {command}"
     subprocess.run(cmd, shell=True)
 
 

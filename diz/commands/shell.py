@@ -1,4 +1,6 @@
 import libtmux
+from diz.utils import dir
+from diz.utils import venv
 
 
 class Tmux:
@@ -16,7 +18,9 @@ class Tmux:
         return session
 
     def attach(self):
-        self.run_cmd(". ./venv/bin/activate")
+        if dir.is_empty('./venv/bin/activate'):
+            cmd = venv.get_activate_command('./venv')
+            self.run_cmd(cmd)
         self.session.attach_session()
 
     def run_cmd(self, command):

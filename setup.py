@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='diz',
-    version='0.0.9',
+    version='0.0.10',
     author='mjason',
     description='用来构建大模型环境的工具',
     long_description=readme(),
