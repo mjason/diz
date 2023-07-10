@@ -13,6 +13,11 @@
 pip install diz
 ```
 
+系统依赖：
+1. tmux
+2. git
+3. git lfs
+
 ## 使用
 
 ```bash
@@ -26,6 +31,17 @@ diz setup
 ```bash
 diz setup --path /root/autodl-tmp/chatglm2 --pkg https://gist.githubusercontent.com/mjason/a616dcb8f9fd09fb2c7fb18ff3bb6279/raw/bb530a7d4101edf8aa474883d1f54a6aef58bc44/chatglm2-6b.yml
 ```
+
+```bash
+diz install ChatGLM2-6B --path /root/autodl-tmp/chatglm2
+```
+即可完成安装，安装完成后会自动进入虚拟环境，可以直接使用。
+
+- diz shell 进入虚拟环境
+- diz shell --mode o 退出虚拟环境，环境进入后台
+- diz shell --mode k 退出虚拟环境，环境进入后台，且 kill 掉原来的进程
+
+```bash
 
 ## 路线图
 - [x] 提供 install 命令，统一安装源
