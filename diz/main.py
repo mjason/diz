@@ -4,6 +4,8 @@ from diz.commands.setup import SetupCommand
 from diz.commands.install import InstallCommand
 from typing_extensions import Annotated
 from diz.commands.shell import Tmux
+from diz.utils import venv as venv_utils
+from diz.utils import dir
 from enum import Enum
 import os
 
@@ -63,8 +65,11 @@ def venv():
     """
     激活虚拟环境
     """
-    cmd = venv.get_activate_command('./venv')
-    subprocess.run(cmd, shell=True, executable=os.environ.get("SHELL", ''))
+    if not dir.is_empty('./venv'):
+        cmd = venv_utils.get_activate_command('./venv')
+        subprocess.run(cmd, shell=True, executable=os.environ.get("SHELL", ''))
+    else:
+        typer.echo("不存在 venv 目录")
 
 
 def main():
