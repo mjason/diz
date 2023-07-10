@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='diz',
-    version='0.0.7',
+    version='0.0.8',
     author='mjason',
     description='用来构建大模型环境的工具',
     long_description=readme(),
@@ -20,7 +20,9 @@ setup(
         'PyYAML>=6.0',
         'requests>=2.31.0',
         'toolz>=0.12.0',
-        'typer>=0.9.0'
+        'typer>=0.9.0',
+        'libtmux>=0.20.0',
+        'PyGithub>=1.50',
     ],
     entry_points={
         'console_scripts': [

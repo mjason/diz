@@ -28,6 +28,6 @@ diz setup --path /root/autodl-tmp/chatglm2 --pkg https://gist.githubusercontent.
 ```
 
 ## 路线图
-- [ ] 提供 install 命令，统一安装源
-- [ ] 提供 venv 指令，快速进入对应的虚拟环境
+- [x] 提供 install 命令，统一安装源
+- [x] 提供 venv 指令，快速进入对应的虚拟环境
 - [ ] 提供 generate 命令，根据生成本地模型调用代码

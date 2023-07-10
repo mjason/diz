@@ -1,8 +1,10 @@
 import typer
 import subprocess
 from diz.commands.setup import SetupCommand
+from diz.commands.install import InstallCommand
 from typing_extensions import Annotated
-
+from diz.commands.shell import Tmux
+from enum import Enum
 
 app = typer.Typer()
 
@@ -14,6 +16,12 @@ def setup(path: Annotated[str, typer.Option(prompt="请输入安装目录")],
 
 
 @app.command()
+def install(name: str,
+            path: Annotated[str, typer.Option(prompt="请输入安装目录")]):
+    InstallCommand(path=path, name=name).run()
+
+
+@app.command()
 def gpu_info():
     try:
         info = subprocess.check_output(['nvidia-smi'], universal_newlines=True)
@@ -22,6 +30,30 @@ def gpu_info():
         print('nvidia-smi command not found. Make sure NVIDIA drivers are installed.')
     except subprocess.CalledProcessError:
         print('Not connected to a GPU')
+
+
+class Mode(str, Enum):
+    attach = 'i'
+    detach = 'o'
+    kill = 'k'
+
+
+@app.command()
+def shell(index: int = 0, mode: Mode = Mode.attach):
+    """
+    使用 tmux 来实现后台服务管理，方便在服务端进行调试
+
+    index: 需要进入第几个后台，默认为 0
+
+    mode: 模式，i 为进入，o 为退出，kill 为删除
+    """
+    tmux = Tmux(index)
+    if mode == Mode.attach:
+        tmux.attach()
+    elif mode == Mode.detach:
+        tmux.detach()
+    elif mode == Mode.kill:
+        tmux.kill()
 
 
 def main():
