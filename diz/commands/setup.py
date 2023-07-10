@@ -56,6 +56,7 @@ class SetupCommand:
         venv_path = self.get_dir("venv")
         for dep in self.config['deps']:
             pip.install(dep, venv_path)
+        pip.install("diz", venv_path)
 
     def run(self):
         self.create_dir("code")
