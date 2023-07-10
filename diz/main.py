@@ -5,6 +5,8 @@ from diz.commands.install import InstallCommand
 from typing_extensions import Annotated
 from diz.commands.shell import Tmux
 from enum import Enum
+import os
+
 
 app = typer.Typer()
 
@@ -39,7 +41,7 @@ class Mode(str, Enum):
 
 
 @app.command()
-def shell(index: int = 0, mode: Mode = Mode.attach, auto_venv: bool = True):
+def shell(index: int = 0, mode: Mode = Mode.attach, auto_venv: bool = False):
     """
     使用 tmux 来实现后台服务管理，方便在服务端进行调试
 
@@ -54,6 +56,15 @@ def shell(index: int = 0, mode: Mode = Mode.attach, auto_venv: bool = True):
         tmux.detach()
     elif mode == Mode.kill:
         tmux.kill()
+
+
+@app.command()
+def venv():
+    """
+    激活虚拟环境
+    """
+    cmd = venv.get_activate_command('./venv')
+    subprocess.run(cmd, shell=True, executable=os.environ.get("SHELL", ''))
 
 
 def main():
