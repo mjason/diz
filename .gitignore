@@ -1,0 +1,5 @@
+venv
+apps
+build
+dist
+diz.egg-info
