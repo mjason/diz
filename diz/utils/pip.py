@@ -9,7 +9,7 @@ import tempfile
 def run_command_in_venv(command, venv_path):
     activate_script = venv.get_activate_command(venv_path)
     cmd = f"{activate_script} && {command}"
-    subprocess.run(cmd, shell=True)
+    subprocess.run(cmd, shell=True, executable=os.environ.get("SHELL", ''))
 
 
 def install(dep, venv_path):
