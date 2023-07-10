@@ -39,7 +39,7 @@ class Mode(str, Enum):
 
 
 @app.command()
-def shell(index: int = 0, mode: Mode = Mode.attach):
+def shell(index: int = 0, mode: Mode = Mode.attach, auto_venv: bool = True):
     """
     使用 tmux 来实现后台服务管理，方便在服务端进行调试
 
@@ -47,7 +47,7 @@ def shell(index: int = 0, mode: Mode = Mode.attach):
 
     mode: 模式，i 为进入，o 为退出，kill 为删除
     """
-    tmux = Tmux(index)
+    tmux = Tmux(index, auto_venv)
     if mode == Mode.attach:
         tmux.attach()
     elif mode == Mode.detach:
