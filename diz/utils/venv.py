@@ -1,24 +1,10 @@
 import platform
-import os
-
-
-def get_current_shell():
-    shell = os.environ.get('SHELL', '')
-    if shell.endswith('bash'):
-        return 'bash'
-    elif shell.endswith('zsh'):
-        return 'zsh'
-    elif shell.endswith('fish'):
-        return 'fish'
-    elif 'csh' in shell or 'tcsh' in shell:
-        return 'csh'
-    else:
-        raise ValueError("Unsupported shell")
+from diz.utils.shell import current as get_current_shell
 
 
 def get_activate_command(venv_path):
     system = platform.system()
-    shell = get_current_shell()
+    shell, _ = get_current_shell()
 
     if system == 'Windows':
         if shell == 'cmd.exe':

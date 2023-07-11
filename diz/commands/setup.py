@@ -13,16 +13,15 @@ class SetupCommand:
         self.config = yaml.load_yaml(self.pkg)
         self.install_path = self.path
 
-    def create_dir(self, path, print_path=True):
-        target_path = pipe(
-            path,
-            lambda p: os.path.join(self.install_path, p),
-            os.path.expanduser,
-        )
+    def find_and_create_dir(self, path):
+        target_path = self.get_dir(path)
         if not os.path.exists(target_path):
             os.makedirs(target_path)
-        if print_path:
-            print(f"创建目录：{target_path}")
+        return target_path
+
+    def create_dir(self, path):
+        target_path = self.find_and_create_dir(path)
+        print(f"创建目录：{target_path}")
         return target_path
 
     def get_dir(self, path):
@@ -34,21 +33,24 @@ class SetupCommand:
         return target_path
 
     def clone_code(self):
-        if diz.utils.dir.is_empty(self.create_dir("code", False)):
-            git.Repo.clone_from(self.config['code_repo'], self.create_dir("code", False))
+        code_path = self.find_and_create_dir("code")
+        if diz.utils.dir.is_empty(code_path):
+            git.Repo.clone_from(self.config['code_repo'], code_path)
             print("下载完成！")
         else:
             print("已经下载过了，无需下载。")
 
     def download_model_from_huggingface(self):
-        if diz.utils.dir.is_empty(self.create_dir("model", False)):
-            download.save_huggingface_model(self.config['huggingface'], self.create_dir("model", False))
+        model_path = self.find_and_create_dir("model")
+        if diz.utils.dir.is_empty(model_path):
+            download.save_huggingface_model(self.config['huggingface'], model_path)
             print("下载完成！")
         else:
             print("已经下载过了，无需下载。")
 
     def create_venv(self):
-        if diz.utils.dir.is_empty(self.create_dir("venv", False)):
+        venv_path = self.get_dir("venv")
+        if diz.utils.dir.is_empty(venv_path):
             os.system(f"cd {self.path} && python -m venv venv")
             print("创建虚拟环境完成！")
 
