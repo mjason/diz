@@ -1,8 +1,7 @@
 import os.path
 import git
 import diz.utils.dir
-from diz.utils import pip
-from diz.utils import download, yaml
+from diz.utils import download, yaml, shell, pip
 from toolz import pipe
 
 
@@ -50,8 +49,8 @@ class SetupCommand:
 
     def create_venv(self):
         venv_path = self.get_dir("venv")
-        if diz.utils.dir.is_empty(venv_path):
-            os.system(f"cd {self.path} && python -m venv venv")
+        if not diz.utils.dir.is_empty(venv_path):
+            shell.run(f"cd {self.path} && python -m venv venv")
             print("创建虚拟环境完成！")
 
     def install_deps(self):
